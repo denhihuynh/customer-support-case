@@ -8,17 +8,19 @@ const firestore = new Firestore();
  * @param {object} jsonBody
  * @returns
  */
-const hasRequiredFields = (jsonBody) => {
-  if (
-    typeof jsonBody.email !== "string" ||
-    typeof jsonBody.message !== "string"
-  ) {
-    return false;
-  }
-  return true;
-};
+const hasRequiredFields = (jsonBody) => jsonBody.email && jsonBody.message;
 
 module.exports = functions.http("main", async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  console.log('req.method', req.method)
+  if (req.method === "OPTIONS") {
+    res.set("Access-Control-Allow-Methods", "GET, POST");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    res.set('Access-Control-Max-Age', '3600');
+    res.send(204);
+    return;
+  }
+
   const body = req.body;
   if (!hasRequiredFields(body)) {
     res.status(400).send("Invalid request body");
@@ -28,13 +30,15 @@ module.exports = functions.http("main", async (req, res) => {
   const hydratedParams = {
     supportAgent: null,
     status: "AVAILABLE",
-  }
+  };
   try {
     const response = await firestore.collection("SupportCase").add({
       orderId: body.orderId,
       productId: body.productId,
       message: body.message,
-      ...hydratedParams
+      email: body.email,
+      name: body.name,
+      ...hydratedParams,
     });
     console.log("Added document with res: ", JSON.stringify(response, null, 2));
     res.send(201);

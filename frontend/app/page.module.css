@@ -1,0 +1,24 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+}
+
+.heading {
+  font-weight: 200;
+  font-family: var(--font-mono);
+}
+
+.introText {
+  width: 60%;
+  font-family: var(--font-mono);
+  margin-bottom: 16px;
+}
+
+.card {
+  margin: 32px;
+  width: 600px;
+}

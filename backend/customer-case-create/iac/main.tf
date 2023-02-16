@@ -52,3 +52,11 @@ resource "google_cloudfunctions2_function" "this" {
     all_traffic_on_latest_revision = var.all_traffic_on_latest_revision
   }
 }
+
+resource "google_cloudfunctions2_function_iam_member" "member" {
+  project = google_cloudfunctions2_function.this.project
+  location = google_cloudfunctions2_function.this.location
+  cloud_function = google_cloudfunctions2_function.this.name
+  role = "roles/cloudfunctions.invoker"
+  member = "allUsers"
+}
