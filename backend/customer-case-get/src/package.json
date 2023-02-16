@@ -1,0 +1,10 @@
+{
+    "main": "index.js",
+    "scripts": {
+        "start": "npx functions-framework --target=createCustomerCase [--signature-type=http]"
+    },
+    "dependencies": {
+        "@google-cloud/firestore": "^6.4.2",
+        "@google-cloud/functions-framework": "^3.0.0"
+    }
+}
