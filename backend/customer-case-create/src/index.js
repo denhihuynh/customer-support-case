@@ -33,11 +33,11 @@ module.exports = functions.http("main", async (req, res) => {
   };
   try {
     const response = await firestore.collection("SupportCase").add({
-      orderId: body.orderId,
-      productId: body.productId,
+      orderId: body.orderId || null,
+      productId: body.productId || null,
       message: body.message,
       email: body.email,
-      name: body.name,
+      name: body.name || null,
       ...hydratedParams,
     });
     console.log("Added document with res: ", JSON.stringify(response, null, 2));

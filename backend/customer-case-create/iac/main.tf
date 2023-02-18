@@ -24,6 +24,25 @@ resource "google_storage_bucket_object" "this" {
   source = data.archive_file.this.output_path
 }
 
+resource "google_service_account" "account" {
+  account_id   = "cf-sa-${var.name}"
+  display_name = "Service Account - used for the cloud function ${var.name}"
+}
+
+resource "google_project_iam_custom_role" "cloud-function-role" {
+  role_id     = "cf_role_${var.cf-role-name}"
+  title       = "Role used for ${var.name} cloud function"
+  description = "Role used for ${var.name} cloud function"
+  permissions = ["datastore.entities.create"]
+}
+
+# Permissions on the service account used by the function
+resource "google_project_iam_member" "member" {
+  project = var.project
+  role    = google_project_iam_custom_role.cloud-function-role.id
+  member  = "serviceAccount:${google_service_account.account.email}"
+}
+
 resource "google_cloudfunctions2_function" "this" {
   name        = var.name
   location    = var.location
@@ -50,9 +69,11 @@ resource "google_cloudfunctions2_function" "this" {
     environment_variables          = var.environment_variables
     ingress_settings               = var.ingress_settings
     all_traffic_on_latest_revision = var.all_traffic_on_latest_revision
+    service_account_email = google_service_account.account.email
   }
 }
 
+# IAM permission to allow other to call funciton
 resource "google_cloudfunctions2_function_iam_member" "member" {
   project = google_cloudfunctions2_function.this.project
   location = google_cloudfunctions2_function.this.location

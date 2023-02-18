@@ -5,16 +5,21 @@ variable "name" {
   default     = "example-managed-by-terraform"
 }
 
-variable "location" {
-  description = "The location of this cloud function."
-  type        = string
-  default     = "europe-west1"
-}
-
 variable "description" {
   description = "User-provided description of a function."
   type        = string
   default     = "Cloud function example managed by Terraform"
+}
+
+variable "cf-role-name" {
+  description = "Suffix of the role name. cf_role_ is added as prefix"
+  type        = string
+}
+
+variable "location" {
+  description = "The location of this cloud function."
+  type        = string
+  default     = "europe-west1"
 }
 
 variable "project" {
