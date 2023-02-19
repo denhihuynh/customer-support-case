@@ -1,6 +1,6 @@
-import { Card } from "./Card";
-import { CustomerCaseForm } from "./CustomerCaseForm";
-import styles from "./page.module.css";
+import { Card } from "../components/Card";
+import { CustomerCaseForm } from '../components/CustomerCaseForm'
+import styles from "../styles/index.module.css";
 
 export interface CustomerCaseFormData {
   name: string;

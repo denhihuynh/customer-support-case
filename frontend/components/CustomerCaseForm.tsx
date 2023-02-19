@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from "react";
 import styles from "./CustomerCaseForm.module.css";
-import { CustomerCaseFormData } from "./page";
+import { CustomerCaseFormData } from "../pages/index";
 
 interface CustomerCaseFormProps {}
 
